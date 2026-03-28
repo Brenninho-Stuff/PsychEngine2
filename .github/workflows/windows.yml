@@ -1,0 +1,44 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.3.4
+
+      - name: Install Haxelib Dependencies
+        run: |
+          haxelib setup C:/haxelib
+          haxelib install hmm
+          haxelib run hmm install
+        shell: cmd
+
+      - name: Setup HXCPP
+        run: |
+          haxelib run lime setup -alias -y
+        shell: cmd
+
+      - name: Build Windows
+        run: |
+          haxelib run lime build windows -release
+        shell: cmd
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PsychEngine-Windows
+          path: export/release/windows/bin/

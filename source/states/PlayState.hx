@@ -348,7 +348,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		GameOverSubstate.resetVariables();
-		songName = Paths.formatToSongPath(SONG.song);
+		songandroidPaths.formatToSongPath(SONG.song);
 		if(SONG.stage == null || SONG.stage.length < 1)
 			SONG.stage = StageData.vanillaSongStage(Paths.formatToSongPath(Song.loadedSongName));
 
@@ -661,7 +661,7 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
 
-		#if !android
+		#if mobile
 		addTouchPad('NONE', 'P');
 		addTouchPadCamera();
 		#end

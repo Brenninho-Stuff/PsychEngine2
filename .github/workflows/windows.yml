@@ -20,14 +20,18 @@ jobs:
         with:
           haxe-version: 4.3.4
 
-      - name: Install Haxelib Dependencies
+      - name: Setup Haxelib
         run: |
           haxelib setup C:/haxelib
-          haxelib install hmm
+        shell: cmd
+
+      - name: Install HMM
+        run: |
+          haxelib install hmm --quiet
           haxelib run hmm install
         shell: cmd
 
-      - name: Setup HXCPP
+      - name: Setup Lime
         run: |
           haxelib run lime setup -alias -y
         shell: cmd
@@ -42,3 +46,4 @@ jobs:
         with:
           name: PsychEngine-Windows
           path: export/release/windows/bin/
+          if-no-files-found: error
